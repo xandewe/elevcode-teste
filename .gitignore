@@ -1,0 +1,6 @@
+venv
+.env
+__pycache__
+main.py
+db.sqlite3
+package_csv
