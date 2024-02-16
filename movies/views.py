@@ -2,6 +2,10 @@ from rest_framework.views import APIView, Request, Response, status
 import requests
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class MovieView(APIView):
@@ -9,6 +13,7 @@ class MovieView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, req: Request):
+        token = os.getenv("API_TOKEN")
 
         try:
             page = req.query_params["page"]
@@ -19,7 +24,7 @@ class MovieView(APIView):
 
         headers = {
             "accept": "application/json",
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjN2Y5NzgxOTkxYTUzZmVkZWY5MjBiZjIyNjU2ZGI0MiIsInN1YiI6IjY1Y2Y1YjQ5MzVkYjQ1MDE0YTE4NmRkNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.y0l1V_3sYEiseePLHrxVf2iObfttcRPVPwr6jX_oBH0",
+            "Authorization": f"Bearer {token}",
         }
 
         response = requests.get(url, headers=headers)
